@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista 2.1 - Questão 01</title>
+</head>
+
+<body>
+
+    <form name="lista">
+        <div><label>Item: <input type="text" name="item"></label></div>
+        <div><label>Quantidade: <input type="number" name="quantidade"></label></div>
+        <input type="submit">
+        <input type="button", value="Apagar Lista">
+    </form>
+        <h1>Lista de Compras:</h1>
+        <ul>
+
+        </ul>  
+    <script>
+        var formLista = document.forms.lista
+        var lista = document.querySelector("ul")
+        
+        formLista.addEventListener("submit",processaLista)
+        formLista.addEventListener("button",limparLista)
+
+        
+        function processaLista(e){
+            e.preventDefault() //Não permite que o formulario seja enviado, que seria o padrão ao clicar no botao de submit
+            var item = formLista.item.value
+            var quantidade = Number(formLista.quantidade.value) //Conversao para numero
+           
+            criaLista(quantidade, item)
+            formLista.reset()    //resetar os campos do formulario
+            formLista.item.focus() //mudar o cursor para o primeiro campo
+        }
+        function criaLista(quantidade, item){
+            var linha = document.createElement("li")
+            linha.textContent = quantidade + " " + item
+
+            lista.appendChild(linha)
+
+        }
+
+
+        function limparLista() 
+        { 
+            lista.innerText="" 
+        }   
+    
+    </script>
+</body>
+
+</html>

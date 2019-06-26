@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <form name="excursao">
+        <input type="hidden" name="posicao">
+        <div><label>Nome: <input type="text" name="nome"></label></div>
+        <div><label>Idade: <input type="number" name="idade"></label></div>
+
+    </form>
+    <button id="envio">Enviar</button>
+    <h1>Adultos</h1>
+    <ul id="adulto">
+
+    </ul>
+    <h1>Crianças</h1>
+    <ul id="crianca">
+
+    </ul>
+    <script>
+
+        var formExcursao = document.forms.excursao
+        var lista = document.querySelector("#adulto")
+        var lista2 = document.querySelector("#crianca")
+
+        var eEnvio = document.getElementById("envio")
+
+
+        eEnvio.addEventListener("click", processaLista)
+
+        function processaLista(e) {
+            e.preventDefault() //Não permite que o formulario seja enviado, que seria o padrão ao clicar no botao de submit
+            var nome = formExcursao.nome.value
+            var idade = Number(formExcursao.idade.value) //Conversao para numero
+
+            selecaoDeLista(idade, nome)
+            formExcursao.reset()    //resetar os campos do formulario
+            formExcursao.nome.focus() //mudar o cursor para o primeiro campo
+        }
+        function selecaoDeLista(idade, nome) {
+            if (idade >= 18) {
+                var linha = document.createElement("li")
+                linha.textContent = nome + " - " + idade + "anos."
+
+                var bEditar = document.createElement("button")
+                bEditar.textContent = "Editar"
+
+
+                linha.appendChild(bEditar)
+                lista.appendChild(linha)
+
+                bEditar.addEventListener("click", criaEdicao)
+            }
+
+            else {
+                var linha = document.createElement("li")
+                linha.textContent = nome + " - " + idade + "anos."
+
+                var bEditar = document.createElement("button")
+                bEditar.textContent = "Editar"
+
+
+                linha.appendChild(bEditar)
+                lista2.appendChild(linha)
+
+                bEditar.addEventListener("click", criaEdicao)
+            }
+
+            function criaEdicao(i) {
+
+
+
+                // var eNome = document.getElementById("nome")
+                // var eIdade = document.getElementById("idade")
+                if (idade >= 18) {
+                    var eExcluir = document.createElement("button")
+                    eExcluir.textContent = "Excluir"
+                    lista.appendChild(eExcluir)
+                    // eNome.contentEditable = true
+                    // eIdade.contentEditable = true}
+                }
+                else {
+                    var eExcluir = document.createElement("button")
+                    eExcluir.textContent = "Excluir"
+                    lista2.appendChild(eExcluir)
+                }
+
+                excluirLinha()
+
+            }
+            function excluirLinha() {
+
+            }
+
+
+            function desenhaLista() {
+                for (var i = 0; i < pessoas.length; i++) {
+                    var pessoa = pessoas[i];
+                    if (pessoa.idade < 18) {
+                        novoLi.addEventListener('click', criaOuvinte(i));
+                    } else { }
+                }
+            }
+
+            function criaOuvinte(pos) {
+                return function () {
+                    console.log(pos);
+                    formExcursao.posicao.value = pos;
+                    formExcursao.nome.value = pessoas[pos].nome;
+                    formExcursao.idade.value = pessoas[pos].idade;
+                    
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

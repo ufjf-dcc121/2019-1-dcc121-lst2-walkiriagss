@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lista 2.1 - Questão 02</title>
+</head>
+
+<body>
+
+    <form name="pilha">
+        <div><label>Entrada: <input type="text" name="entrada"></label></div>
+
+
+    </form>
+    <button id="empilha">Empilhar</button>
+    <button id="desempilha">Desempilhar</button>
+    <h1>Pilha:</h1>
+    <ol>
+
+
+    </ol>
+
+    <script>
+
+        var Pilha = []
+        var formPilha = document.forms.pilha
+        var eEmpilha = document.getElementById("empilha")
+        var eDesempilha = document.getElementById("desempilha")
+        var lista = document.getElementsByTagName("ol")[0]
+
+        formPilha.addEventListener("submit", processaLista)
+        eEmpilha.addEventListener("click", processaLista)
+        eDesempilha.addEventListener("click", funcaoDesempilha)
+
+        function processaLista(e) {
+            e.preventDefault() //Não permite que o formulario seja enviado, que seria o padrão ao clicar no botao de submit
+            var entrada = formPilha.entrada.value
+
+
+            criaPilha(entrada)
+            formPilha.reset()    //resetar os campos do formulario
+            formPilha.entrada.focus() //mudar o cursor para o primeiro campo
+        }
+
+        function criaPilha(entrada) {
+            var novaEntrada = { "entrada": entrada }
+            Pilha.push(novaEntrada);
+            desenhaPilha();
+        }
+        function funcaoDesempilha() {
+            Pilha.pop();
+            desenhaPilha();
+        }
+
+        function desenhaPilha() {
+            lista.innerHTML = "";
+            for (var i = Pilha.length - 1; i >= 0; i--) {
+                var linha = document.createElement("li")
+                linha.textContent = Pilha[i].entrada;
+                lista.appendChild(linha)
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,54 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 
 <head>
     <meta charset="UTF-8">
-    <title>Lista 2.1 - Questão 01</title>
+    <title>Document</title>
 </head>
 
 <body>
+    <form name="excursao">
+        <input type="hidden" name="posicao" value="-1">
+        <div><label>Nome: <input type="text" name="nome"></label></div>
+        <div><label>Idade: <input type="number" name="idade"></label></div>
 
-    <form name="lista">
-        <div><label>Item: <input type="text" name="item"></label></div>
-        <div><label>Quantidade: <input type="number" name="quantidade"></label></div>
-        <input type="submit">
-        <input type="button", value="Apagar Lista">
     </form>
-        <h1>Lista de Compras:</h1>
-        <ul>
+    <button id="envio">Enviar</button>
+    <h1>Adultos</h1>
+    <ul id="adulto">
 
-        </ul>  
+    </ul>
+    <h1>Crianças</h1>
+    <ul id="crianca">
+
+    </ul>
     <script>
-        var formLista = document.forms.lista
-        var lista = document.querySelector("ul")
-        
-        formLista.addEventListener("submit",processaLista)
-        formLista.addEventListener("button",limparLista)
 
+        var formExcursao = document.forms.excursao
+        var lista = document.querySelector("#adulto")
+        var lista2 = document.querySelector("#crianca")
+                   
+        var eEnvio = document.getElementById("envio")
+
+        var pessoas=[] //vetor para guardar tds as entradas
         
-        function processaLista(e){
+
+        eEnvio.addEventListener("click", processaLista)
+
+
+        function processaLista(e) {
             e.preventDefault() //Não permite que o formulario seja enviado, que seria o padrão ao clicar no botao de submit
-            var item = formLista.item.value
-            var quantidade = Number(formLista.quantidade.value) //Conversao para numero
-           
-            criaLista(quantidade, item)
-            formLista.reset()    //resetar os campos do formulario
-            formLista.item.focus() //mudar o cursor para o primeiro campo
+            var nome = formExcursao.nome.value
+            var idade = Number(formExcursao.idade.value) //Conversao para numero
+
+            var posiçãoNoVetor = formExcursao.posicao.value; //ira guardar qual posicao do vetor que deve ser alterado
+            
+            if(posiçãoNoVetor==-1)
+                pessoas.push({nome:nome,idade:idade})
+            else{
+                pessoas[posiçãoNoVetor]=({nome:nome,idade:idade})
+                posiçãoNoVetor=-1;
+            }
+            
+            desenhaLista();
+
+            formExcursao.reset()    //resetar os campos do formulario
+            formExcursao.nome.focus() //mudar o cursor para o primeiro campo
         }
-        function criaLista(quantidade, item){
-            var linha = document.createElement("li")
-            linha.textContent = quantidade + " " + item
 
-            lista.appendChild(linha)
-
+        function desenhaLista() { // Função responsavel por desenhar as listas a partir do vetor pessoas
+            lista.textContent=""
+            lista2.textContent=""
+            
+            for (var i = 0; i < pessoas.length; i++) {
+                
+                var pessoa = pessoas[i];
+                var novoLi = document.createElement("li");
+                novoLi.textContent = pessoa.nome+" - "+pessoa.idade;
+                novoLi.addEventListener('click', criaOuvinte(i));
+                
+                if (pessoa.idade < 18) 
+                    lista2.appendChild(novoLi);
+                else  
+                    lista.appendChild(novoLi);
+                
+            }
         }
 
+            function criaOuvinte(pos) { 
+                return function () {
+                    console.log(pos);
+                    formExcursao.posicao.value = pos; 
+                    formExcursao.nome.value = pessoas[pos].nome;
+                    formExcursao.idade.value = pessoas[pos].idade;
+                    
+                }
+            }
 
-        function limparLista() 
-        { 
-            lista.innerText="" 
-        }   
-    
+ 
     </script>
 </body>
 
